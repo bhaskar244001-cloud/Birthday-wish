@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(-45deg,#ff5f9e,#ff9a9e,#fad0c4,#ffdde1);
+background-size:400% 400%;
+animation:bg 10s ease infinite;
+}
+
+@keyframes bg{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.card{
+width:90%;
+max-width:420px;
+padding:35px;
+border-radius:25px;
+background:rgba(255,255,255,.15);
+backdrop-filter:blur(15px);
+border:1px solid rgba(255,255,255,.3);
+text-align:center;
+color:white;
+box-shadow:0 10px 35px rgba(0,0,0,.25);
+z-index:5;
+animation:pop 1s ease;
+}
+
+@keyframes pop{
+from{
+opacity:0;
+transform:scale(.7);
+}
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+h1{
+font-family:"Great Vibes",cursive;
+font-size:58px;
+margin-bottom:10px;
+text-shadow:0 0 15px white;
+}
+
+h2{
+font-size:30px;
+margin-bottom:15px;
+}
+
+p{
+font-size:17px;
+line-height:1.8;
+margin-bottom:25px;
+}
+
+button{
+padding:14px 30px;
+border:none;
+border-radius:40px;
+background:white;
+color:#ff4b7d;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+.heart{
+font-size:35px;
+animation:beat 1s infinite;
+display:inline-block;
+}
+
+@keyframes beat{
+50%{
+transform:scale(1.3);
+}
+}
+
+/* Balloons */
+
+.balloon{
+position:absolute;
+bottom:-200px;
+width:70px;
+height:90px;
+border-radius:50%;
+animation:float 10s linear infinite;
+}
+
+.balloon:before{
+content:"";
+position:absolute;
+width:2px;
+height:90px;
+background:white;
+left:34px;
+top:88px;
+}
+
+.red{background:#ff4b5c;left:10%;animation-duration:8s;}
+.blue{background:#4aa3ff;left:30%;animation-duration:10s;}
+.yellow{background:#ffd93d;left:55%;animation-duration:12s;}
+.green{background:#4cd137;left:80%;animation-duration:9s;}
+
+@keyframes float{
+0%{
+transform:translateY(0);
+}
+100%{
+transform:translateY(-130vh);
+}
+}
+
+canvas{
+position:fixed;
+left:0;
+top:0;
+pointer-events:none;
+z-index:2;
+}
+
+@media(max-width:500px){
+
+h1{
+font-size:46px;
+}
+
+h2{
+font-size:24px;
+}
+
+p{
+font-size:15px;
+}
+
+.card{
+padding:25px;
+}
+
+button{
+font-size:16px;
+padding:12px 24px;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="balloon red"></div>
+<div class="balloon blue"></div>
+<div class="balloon yellow"></div>
+<div class="balloon green"></div>
+
+<div class="card">
+
+<h1>Happy Birthday</h1>
+
+<h2>My Love ❤️</h2>
+
+<p>
+
+May your smile always shine brighter than the stars,
+your dreams come true,
+and your heart always stay filled with happiness.
+
+You deserve all the love,
+joy,
+success,
+and endless beautiful memories.
+
+Thank you for making my life so special.
+
+I hope today becomes one of the happiest days of your life.
+
+Happy Birthday once again,
+beautiful. ❤️
+
+</p>
+
+<button onclick="celebrate()">
+🎉 Celebrate
+</button>
+
+<br><br>
+
+<div class="heart">💖</div>
+
+</div>
+
+<script>
+
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
+
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+
+let pieces=[];
+
+function random(min,max){
+return Math.random()*(max-min)+min;
+}
+
+function createConfetti(){
+
+pieces=[];
+
+for(let i=0;i<250;i++){
+
+pieces.push({
+
+x:random(0,canvas.width),
+y:random(-canvas.height,0),
+r:random(4,9),
+d:random(2,7),
+color:`hsl(${random(0,360)},100%,60%)`,
+tilt:random(-10,10)
+
+});
+
+}
+
+}
+
+createConfetti();
+
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+pieces.forEach(p=>{
+
+ctx.beginPath();
+ctx.fillStyle=p.color;
+ctx.fillRect(p.x,p.y,p.r,p.r*2);
+
+});
+
+update();
+
+requestAnimationFrame(draw);
+
+}
+
+function update(){
+
+pieces.forEach(p=>{
+
+p.y+=p.d;
+p.x+=Math.sin(p.y*0.02);
+
+if(p.y>canvas.height){
+
+p.y=-20;
+p.x=random(0,canvas.width);
+
+}
+
+});
+
+}
+
+draw();
+
+function celebrate(){
+
+for(let i=0;i<3;i++){
+
+setTimeout(createConfetti,i*300);
+
+}
+
+}
+
+window.onresize=()=>{
+
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+
+};
+
+</script>
+
+</body>
+</html>
